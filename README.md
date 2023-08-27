@@ -1,3 +1,22 @@
+## 开发框架
+接口开发主要使用了 Django 和 Django REST framework。
+
+参考文档：
+- Django: https://docs.djangoproject.com/zh-hans/4.2/
+- Django REST framework: https://www.django-rest-framework.org/tutorial/1-serialization/
+
+## 项目结构
+本项目包含6个Django app，分别包含不同功能模块的接口：
+- user：用户管理相关接口（注册、获取认证token、用户基本信息等）
+- subscripton：会员相关接口（会员状态信息、会员支付等）
+- verification：验证码相关接口（发送验证码、验证验证码等）
+- payment：支付回调接口（用于接收来自于支付平台的异步通知等）
+- material：直播素材材料相关接口（人设、文案、话术等）
+- livestream：直播实时内容相关接口（直播音频推流等）
+
+## 用户认证
+接口的用户认证基于 request header 实现： `Authorization: Token <token-value>`（不使用 cookie 和 session）。具体流程参见下文章节“本地测试”
+
 ## 安装依赖包
 ```shell
 pip install -r requirements.txt
@@ -61,3 +80,23 @@ TypeError: Object type <class 'str'> cannot be passed to C code
         cryptor = AES.new(base64.b64decode(encrypt_key), AES.MODE_CBC, iv.encode('utf-8'))
         ...
     ```
+
+## 本地测试
+通过以下命令在本地启动服务
+```
+# Debug（开发）模式
+python manage.py runserver 8081
+
+# Prod（生产）模式
+DEBUG=0 python manage.py runserver 8081
+```
+
+如果使用 Postman 测试接口，可以直接导入本项目 `postman` 文件夹里的接口 collection 配置文件。Postman 中接口测试的基本流程如下：
+1. 注册用户：调用 User/Register 接口
+   - 注：注册需要填写验证码，可以通过调用 Verification/SendSms 接口发送到真实手机号
+1. 获取用户认证token：调用 User/GetAuthToken 接口
+1. 测试具体功能接口：调用时，request header 加上上一步获取的 token
+    ```
+    Authorization: Token <token-value>
+    ```
+    - 注：部分不需要用户认证的接口调用时无需包含 token（如发送验证码接口）
