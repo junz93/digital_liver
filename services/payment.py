@@ -42,7 +42,7 @@ def get_desktop_alipay_payment_url(order_id: str, subject: str, total_amount: st
     model.product_code = 'FAST_INSTANT_TRADE_PAY'
 
     request = AlipayTradePagePayRequest(model)
-    request.notify_url = 'http://dl.wusejietech.com/api/payment/payment_callback'
+    request.notify_url = 'http://dl.wusejietech.com:8080/api/payment/alipay_callback'
     request.need_encrypt = True
 
     try:
