@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"18062690872\",\r\n    \"password\": \"abcd1234\"\r\n}",
+							"raw": "{\r\n    \"username\": \"13153169298\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -464,7 +464,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"library_name\": \"问答库二\"\n}",
+									"raw": "{\n    \"library_name\": \"文案库二\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -472,7 +472,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/create",
+									"raw": "http://localhost:8081/api/material/library/speech/create",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -482,7 +482,7 @@
 										"api",
 										"material",
 										"library",
-										"question",
+										"speech",
 										"create"
 									]
 								}
@@ -501,7 +501,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/all",
+									"raw": "http://localhost:8081/api/material/library/speech/all",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -511,7 +511,7 @@
 										"api",
 										"material",
 										"library",
-										"question",
+										"speech",
 										"all"
 									]
 								}
@@ -531,7 +531,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"library_name\": \"问答库二\"\n}",
+									"raw": "{\n    \"library\": 1,\n    \"title\": \"这是更新后的标题\",\n    \"content\": \"这是更新后的内容\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -539,7 +539,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/create",
+									"raw": "http://localhost:8081/api/material/speech/create",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -548,8 +548,7 @@
 									"path": [
 										"api",
 										"material",
-										"library",
-										"question",
+										"speech",
 										"create"
 									]
 								}
@@ -568,7 +567,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/all",
+									"raw": "http://localhost:8081/api/material/speech/1/all",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -577,8 +576,8 @@
 									"path": [
 										"api",
 										"material",
-										"library",
-										"question",
+										"speech",
+										"1",
 										"all"
 									]
 								}
@@ -597,7 +596,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/all",
+									"raw": "http://localhost:8081/api/material/speech/7",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -606,9 +605,8 @@
 									"path": [
 										"api",
 										"material",
-										"library",
-										"question",
-										"all"
+										"speech",
+										"7"
 									]
 								}
 							},
@@ -621,12 +619,12 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Token 59aec0c0c96981ce487b7b21a9ebd96e826abdd0",
+										"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/character/4/delete",
+									"raw": "http://localhost:8081/api/material/speech/7/delete",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -635,9 +633,47 @@
 									"path": [
 										"api",
 										"material",
-										"character",
-										"4",
+										"speech",
+										"7",
 										"delete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateSpeech",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"library\": 1,\n    \"question\": \"更新\",\n    \"answer\": \"这是更新的答案\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/material/question/6/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"material",
+										"question",
+										"6",
+										"update"
 									]
 								}
 							},
@@ -765,7 +801,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/all",
+									"raw": "http://localhost:8081/api/material/question/1/all",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -774,8 +810,8 @@
 									"path": [
 										"api",
 										"material",
-										"library",
 										"question",
+										"1",
 										"all"
 									]
 								}
@@ -794,7 +830,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/all",
+									"raw": "http://localhost:8081/api/material/question/6",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -803,9 +839,46 @@
 									"path": [
 										"api",
 										"material",
-										"library",
 										"question",
-										"all"
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateQuestion",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"library\": 1,\n    \"question\": \"更新\",\n    \"answer\": \"这是更新的答案\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/material/question/6/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"material",
+										"question",
+										"6",
+										"update"
 									]
 								}
 							},
@@ -818,12 +891,12 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Token 59aec0c0c96981ce487b7b21a9ebd96e826abdd0",
+										"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8081/api/material/character/4/delete",
+									"raw": "http://localhost:8081/api/material/question/5/delete",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -832,8 +905,8 @@
 									"path": [
 										"api",
 										"material",
-										"character",
-										"4",
+										"question",
+										"5",
 										"delete"
 									]
 								}

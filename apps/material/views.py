@@ -94,6 +94,18 @@ def get_question(request: Request, id: int):
     question_serializer = QuestionAnswerSerializer(question)
     return Response(question_serializer.data)
 
+@api_view(['POST'])
+def update_question(request: Request, id: int):
+    try:
+        question = QuestionAnswer.objects.get(id=id)
+    except QuestionAnswer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    question_serializer = QuestionAnswerSerializer(question, data=request.data)
+    if not question_serializer.is_valid():
+        return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
+    question_serializer.save()
+    return Response()
+
 @api_view(['GET'])
 def get_all_questions_in_library(request: Request, library_id: int):
     questions = QuestionAnswer.objects.filter(library_id=library_id)
@@ -141,5 +153,18 @@ def get_all_speeches_in_library(request: Request, library_id: int):
     speeches = Speech.objects.filter(library_id=library_id)
     speech_serializer = SpeechSerializer(speeches, many=True)
     return Response(speech_serializer.data)
+
+@api_view(['POST'])
+def update_speech(request: Request, id: int):
+    try:
+        speech = Speech.objects.get(id=id)
+    except Speech.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    speech_serializer = SpeechSerializer(speech, data=request.data)
+    if not speech_serializer.is_valid():
+        return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
+    speech_serializer.save()
+    return Response()
+        
 
 
