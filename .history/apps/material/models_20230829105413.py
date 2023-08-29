@@ -88,30 +88,14 @@ class Character(models.Model):
     #         'worldView': self.world_view,
     #         'personalStatement': self.personal_statement,
     #     }
+
 class QuestionAnswerLibrary(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE)
     library_name = models.CharField(max_length=100)
-    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+    
 
 class QuestionAnswer(models.Model):
     library = models.ForeignKey(QuestionAnswerLibrary, on_delete=models.CASCADE)
     question = models.TextField()
     answer = models.TextField()
-    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
-
-class SpeechLibrary(models.Model):
-    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    library_name = models.CharField(max_length=100)
-    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
-    
-class Speech(models.Model):
-    library = models.ForeignKey(SpeechLibrary, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
-
 

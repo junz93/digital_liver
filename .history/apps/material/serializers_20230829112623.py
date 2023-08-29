@@ -25,6 +25,7 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionAnswer
         exclude = [
+            'library',
             'created_datetime',
             'updated_datetime',
         ]
@@ -42,6 +43,7 @@ class SpeechSerializer(serializers.ModelSerializer):
     class Meta:
         model = Speech
         exclude = [
+            'library',
             'created_datetime',
             'updated_datetime',
         ]

@@ -119,18 +119,18 @@ def create_speech(request: Request):
     speech_serializer = SpeechSerializer(data=request.data)
     if not speech_serializer.is_valid():
         return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
-    speech = speech_serializer.save()
+    speech = speech_serializer.save(user=request.user)
     return Response({'id': speech.id})
 
 @api_view(['POST'])
 def delete_speech(request: Request, id: int):
-    Speech.objects.filter(id=id).delete()
+    Speech.objects.filter(id=id, user_id=request.user.id).delete()
     return Response()
 
 @api_view(['GET'])
 def get_speech(request: Request, id: int):
     try:
-        speech = Speech.objects.get(id=id)
+        speech = Speech.objects.get(id=id, user_id=request.user.id)
     except Speech.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     speech_serializer = SpeechSerializer(speech)
