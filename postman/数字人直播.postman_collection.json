@@ -531,7 +531,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"library\": 1,\n    \"title\": \"这是更新后的标题\",\n    \"content\": \"这是更新后的内容\"\n}",
+									"raw": "{\n    \"library\": 1,\n    \"title\": \"新增\",\n    \"content\": \"这是新增后的内容\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -654,7 +654,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"library\": 1,\n    \"question\": \"更新\",\n    \"answer\": \"这是更新的答案\"\n}",
+									"raw": "{\n    \"library\": 1,\n    \"title\": \"更新\",\n    \"content\": \"这是更新后的内容\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -662,7 +662,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8081/api/material/question/6/update",
+									"raw": "http://localhost:8081/api/material/speech/7/update",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -671,8 +671,8 @@
 									"path": [
 										"api",
 										"material",
-										"question",
-										"6",
+										"speech",
+										"7",
 										"update"
 									]
 								}
@@ -764,7 +764,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"library_name\": \"问答库二\"\n}",
+									"raw": "{\n    \"library\": 1,\n    \"question\": \"老师\",\n    \"answer\": \"这是新建的答案\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -772,7 +772,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8081/api/material/library/question/create",
+									"raw": "http://localhost:8081/api/material/question/create",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -781,7 +781,6 @@
 									"path": [
 										"api",
 										"material",
-										"library",
 										"question",
 										"create"
 									]
@@ -914,6 +913,239 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Word",
+			"item": [
+				{
+					"name": "CreateWordsLibrary",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"library_name\": \"问答库二\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/material/library/question/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"library",
+								"question",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetWordsLibrary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/material/library/question/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"library",
+								"question",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateWords",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"library\": 1,\n    \"question\": \"老师\",\n    \"answer\": \"这是新建的答案\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/material/question/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"question",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetWordsAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/material/question/1/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"question",
+								"1",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetWordsOne",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/material/question/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"question",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateWords",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"library\": 1,\n    \"question\": \"更新\",\n    \"answer\": \"这是更新的答案\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/material/question/6/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"question",
+								"6",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteWords",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 8ceb4f552c2bf2e293031974b86c7fa3ab5b4f78",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/material/question/5/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"material",
+								"question",
+								"5",
+								"delete"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

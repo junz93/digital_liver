@@ -88,12 +88,15 @@ class Character(models.Model):
     #         'worldView': self.world_view,
     #         'personalStatement': self.personal_statement,
     #     }
+
+#问答库
 class QuestionAnswerLibrary(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE)
     library_name = models.CharField(max_length=100)
     created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
     updated_datetime = models.DateTimeField(auto_now=True, editable=False)
 
+#问答文案
 class QuestionAnswer(models.Model):
     library = models.ForeignKey(QuestionAnswerLibrary, on_delete=models.CASCADE)
     question = models.TextField()
@@ -101,15 +104,40 @@ class QuestionAnswer(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
     updated_datetime = models.DateTimeField(auto_now=True, editable=False)
 
+#讲稿库
 class SpeechLibrary(models.Model):
     user = models.ForeignKey('user.User', on_delete=models.CASCADE)
     library_name = models.CharField(max_length=100)
     created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
     updated_datetime = models.DateTimeField(auto_now=True, editable=False)
-    
+
+#讲稿文案
 class Speech(models.Model):
     library = models.ForeignKey(SpeechLibrary, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
+    content = models.TextField()
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+#话术库
+class WordsLibrary(models.Model):
+    GIFT = 'GIFT'
+    LIKE = 'LIKE'
+    GREETING = 'GREETING'
+    TYPE_CHOICES = [
+        (GIFT, '礼物'),
+        (LIKE, '点赞'),
+        (GREETING, '打招呼'),
+    ]
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    library_name = models.CharField(max_length=100)
+    library_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+#话术文案
+class Words(models.Model):
+    library = models.ForeignKey(WordsLibrary, on_delete=models.CASCADE)
     content = models.TextField()
     created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
     updated_datetime = models.DateTimeField(auto_now=True, editable=False)

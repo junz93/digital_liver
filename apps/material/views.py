@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from .models import Character, QuestionAnswerLibrary, QuestionAnswer, SpeechLibrary, Speech
-from .serializers import CharacterSerializer, QuestionAnswerLibrarySerializer, QuestionAnswerSerializer, SpeechLibrarySerializer, SpeechSerializer
+from .models import Character, QuestionAnswerLibrary, QuestionAnswer, SpeechLibrary, Speech, WordsLibrary, Words
+from .serializers import CharacterSerializer, QuestionAnswerLibrarySerializer, QuestionAnswerSerializer, SpeechLibrarySerializer, SpeechSerializer, WordsLibrarySerializer, WordsSerializer
 
 
 @api_view(['POST'])
@@ -55,9 +55,7 @@ def get_all_characters(request: Request):
     character_serializer = CharacterSerializer(characters, many=True)
     return Response(character_serializer.data)
 
-'''
-文稿库
-'''
+
 @api_view(['POST'])
 def create_question_library(request: Request):
     library_serializer = QuestionAnswerLibrarySerializer(data=request.data)
@@ -166,5 +164,59 @@ def update_speech(request: Request, id: int):
     speech_serializer.save()
     return Response()
         
+
+@api_view(['POST'])
+def create_words_library(request: Request):
+    library_serializer = WordsLibrarySerializer(data=request.data)
+    if not library_serializer.is_valid():
+        return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
+    library = library_serializer.save(user=request.user)
+    return Response({'id': library.id})
+
+@api_view(['GET'])
+def get_all_words_libraries_by_type(request: Request, library_type: str):
+    libraries = WordsLibrary.objects.filter(user_id=request.user.id, library_type=library_type)
+    library_serializer = WordsLibrarySerializer(libraries, many=True)
+    return Response(library_serializer.data)
+
+@api_view(['POST'])
+def create_word(request: Request):
+    word_serializer = WordsSerializer(data=request.data)
+    if not word_serializer.is_valid():
+        return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
+    word = word_serializer.save()
+    return Response({'id': word.id})
+
+@api_view(['POST'])
+def delete_word(request: Request, id: int):
+    Words.objects.filter(id=id).delete()
+    return Response()
+
+@api_view(['GET'])
+def get_word(request: Request, id: int):
+    try:
+        word = Words.objects.get(id=id)
+    except Words.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    word_serializer = WordsSerializer(word)
+    return Response(word_serializer.data)
+
+@api_view(['POST'])
+def update_word(request: Request, id: int):
+    try:
+        word = Words.objects.get(id=id)
+    except Words.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    word_serializer = WordsSerializer(word, data=request.data)
+    if not word_serializer.is_valid():
+        return Response({'error': '输入参数无效'}, status=status.HTTP_400_BAD_REQUEST)
+    word_serializer.save()
+    return Response()
+
+@api_view(['GET'])
+def get_all_words_in_library(request: Request, library_id: int):
+    words = Words.objects.filter(library_id=library_id)
+    word_serializer = WordsSerializer(words, many=True)
+    return Response(word_serializer.data)
 
 

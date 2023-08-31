@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Character, QuestionAnswerLibrary, QuestionAnswer, SpeechLibrary, Speech
+from .models import Character, QuestionAnswerLibrary, QuestionAnswer, SpeechLibrary, Speech, WordsLibrary, Words
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -45,3 +45,21 @@ class SpeechSerializer(serializers.ModelSerializer):
             'created_datetime',
             'updated_datetime',
         ]
+
+class WordsLibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WordsLibrary
+        exclude = [
+            'user',
+            'created_datetime',
+            'updated_datetime',
+        ]
+
+class WordsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Words
+        exclude = [
+            'created_datetime',
+            'updated_datetime',
+        ]
+
