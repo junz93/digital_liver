@@ -3,3 +3,5 @@ auth.ini
 *.sqlite3
 *.db
 *.log
+.history/
+.idea/
