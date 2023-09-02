@@ -1,6 +1,6 @@
-from django.urls import path
-from rest_framework.authtoken import views as auth_views
+from django.urls import path, re_path
 
+from . import consumers
 from . import views
 
 
@@ -34,4 +34,8 @@ urlpatterns = [
     path('words/<int:id>/update', views.update_word, name='update_word'),
     path('library/words/<str:library_type>/all', views.get_all_words_libraries_by_type, name='get_all_words_libraries_by_type'),
     path('library/words/create', views.create_words_library, name='create_words_library'),
+]
+
+websocket_urlpatterns = [
+    re_path(r'character/(?P<character_id>\d+)/generate_(?P<mode>chat|script)$', consumers.AiGeneratorWsConsumer.as_asgi())
 ]
