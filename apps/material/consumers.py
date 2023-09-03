@@ -1,7 +1,7 @@
 import asyncio
 import json
 import logging
-# import threading
+import threading
 import time
 
 # from asgiref.sync import sync_to_async
@@ -24,9 +24,9 @@ class CustomJsonWebsocketConsumer(JsonWebsocketConsumer):
 class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
     def connect(self):
         self.closed = False
-        self.authenticated = False
+        self.generating = False
         
-        logging.info(f'Websocket scope: {self.scope}')
+        # logging.info(f'Websocket scope: {self.scope}')
 
         self.accept()
         logging.info('Websocket connection opened')
@@ -42,12 +42,18 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
             return
         
         self.query = query_params['query'][0]
+        
+        threading.Thread(target=self._monitor, daemon=True).start()
     
     def disconnect(self, code):
         logging.info(f'Websocket disconnected with code: {code}')
         self.closed = True
 
     def receive_json(self, content):
+        if self.generating:
+            return
+        self.generating = True
+        
         try:
             if content.get('type') == 'AUTH':
                 logging.info('Received auth message for websocket')
@@ -57,7 +63,6 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
                     logging.warning(f'User authentication failed')
                     return
                 
-                self.authenticated = True
                 try:
                     character = Character.objects.get(id=self.character_id, user_id=user.id)
                     for segment in gpt.get_answer(
@@ -70,6 +75,8 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
                     ):
                         # if segment.startswith('生成Gpt回答出错'):
                         #     return
+                        if self.closed:
+                            break
                         self.send_json({'data': segment})
                         time.sleep(0.1)
                 except Character.DoesNotExist:
@@ -80,6 +87,12 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
                 logging.warning(f'Unrecognized message type: {content.get("type")}')
         finally:
             self.close()
+    
+    def _monitor(self):
+        time.sleep(5)
+        if not self.generating:
+            self.close()
+            logging.info(f'No client message in 5 seconds. Closing the connection...')
 
 
 # class AiGeneratorConsumer(AsyncHttpConsumer):
