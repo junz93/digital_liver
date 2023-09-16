@@ -161,7 +161,7 @@ history_danmu = defaultdict(list)
 
 class AnswerMode:
     LIVER = 'LIVER'
-    SCRIPT = 'SCRIPT'
+    SPEECH = 'SPEECH'
     CHAT = 'CHAT'
 
 
@@ -255,7 +255,7 @@ def get_answer(
             if character.personal_statement:
                 renshe_optional += f'{character.personal_statement}\n'
 
-            if mode == AnswerMode.SCRIPT:
+            if mode == AnswerMode.SPEECH:
                 renshe = f"""
                 你的名字是{character.name}，是一名{character.get_role_display()}{character.get_gender_display()}主播，现在正在直播间进行直播，直播间的主题是{character.topic}。
                 {renshe_optional}
@@ -296,6 +296,7 @@ def get_answer(
             messages=message,
             temperature=0.2,
             stream=True,  # this time, we set stream=True
+            timeout=60,
         )
 
         ori_answer = ""

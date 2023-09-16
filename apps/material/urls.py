@@ -37,5 +37,5 @@ urlpatterns = [
 ]
 
 websocket_urlpatterns = [
-    re_path(r'character/(?P<character_id>\d+)/generate_(?P<mode>chat|script)$', consumers.AiGeneratorWsConsumer.as_asgi())
+    re_path(r'(?P<mode>chat|speech)/generate$', consumers.AiGeneratorWsConsumer.as_asgi()),
 ]

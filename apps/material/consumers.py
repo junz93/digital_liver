@@ -1,22 +1,15 @@
-import json
 import logging
 import threading
 import time
 
 # from asgiref.sync import sync_to_async
 # from channels.db import database_sync_to_async
-from channels.generic.websocket import JsonWebsocketConsumer
 from urllib.parse import parse_qs
 
 from .models import Character
 from services import gpt
 from utils.auth import get_user
-
-
-class CustomJsonWebsocketConsumer(JsonWebsocketConsumer):
-    @classmethod
-    def encode_json(cls, content):
-        return json.dumps(content, ensure_ascii=False)
+from utils.consumers import CustomJsonWebsocketConsumer
 
 
 class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
@@ -28,23 +21,24 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
         
         path_params = self.scope['url_route']['kwargs']
         query_params = parse_qs(self.scope['query_string'].decode(encoding='utf-8'))
-        self.character_id = int(path_params['character_id'])
         self.mode = path_params['mode'].upper()
-
-        if 'query' not in query_params \
-            or (self.mode != gpt.AnswerMode.CHAT and self.mode != gpt.AnswerMode.SCRIPT):
+        
+        if 'character_id' not in query_params \
+            or 'query' not in query_params \
+            or (self.mode != gpt.AnswerMode.CHAT and self.mode != gpt.AnswerMode.SPEECH):
             self.close()
             return
         
         self.accept()
-        logging.info('Websocket connection opened')
+        logging.info('AiGeneratorWsConsumer connection opened')
         
+        self.character_id = int(query_params['character_id'][0])
         self.query = query_params['query'][0]
         
         threading.Thread(target=self._monitor, daemon=True).start()
     
     def disconnect(self, code):
-        logging.info(f'Websocket disconnected with code: {code}')
+        logging.info(f'AiGeneratorWsConsumer disconnected with code: {code}')
         self.closed = True
 
     def receive_json(self, content):
@@ -54,15 +48,16 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
         
         try:
             if content.get('type') == 'AUTH':
-                logging.info('Received auth message for websocket')
+                logging.info('Received auth message for AiGeneratorWsConsumer')
                 
                 user = get_user(content['token'])
                 if not user.is_authenticated:
-                    logging.warning(f'User authentication failed')
+                    logging.warning(f'User authentication failed for AiGeneratorWsConsumer')
                     return
                 
                 try:
                     character = Character.objects.get(id=self.character_id, user_id=user.id)
+                    i = 0
                     for segment in gpt.get_answer(
                         self.query, 
                         f'user_{user.id}' if self.mode == gpt.AnswerMode.CHAT else None, 
@@ -75,7 +70,8 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
                         #     return
                         if self.closed:
                             break
-                        self.send_json({'data': segment})
+                        self.send_json({'type': 'CONTENT_SEGMENT', 'seq_no': i, 'data': segment})
+                        i += 1
                         time.sleep(0.1)
                 except Character.DoesNotExist:
                     logging.warning(f'Cannot find a character with ID {self.character_id}')
@@ -94,4 +90,4 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
         
         if not self.generating:
             self.close()
-            logging.info(f'No client message in 5 seconds. Closing the connection...')
+            logging.info(f'No client message in 5 seconds. Closing...')
