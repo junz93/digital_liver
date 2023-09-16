@@ -70,7 +70,7 @@ class AiGeneratorWsConsumer(CustomJsonWebsocketConsumer):
                         #     return
                         if self.closed:
                             break
-                        self.send_json({'type': 'CONTENT_SEGMENT', 'seq_no': i, 'data': segment})
+                        self.send_json({'type': 'CONTENT_SEGMENT', 'seqNo': i, 'data': segment})
                         i += 1
                         time.sleep(0.1)
                 except Character.DoesNotExist:
