@@ -33,10 +33,6 @@ data_dir_conf = configparser.ConfigParser()
 data_dir_conf.read(data_dir_path, encoding="UTF-8")
 danmu_wav_dir = data_dir_conf.get("parameter", "DanmuFile")
 
-os.environ["OPENAI_API_KEY"] = "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"
-os.environ["SERPAPI_API_KEY"] = '5ff319fe5f43f1d8859b0fb39627dc5a2cbbd7e6d7de981b5376a0427688e7d0'
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
 search_index = None
 now = datetime.datetime.now()
 
