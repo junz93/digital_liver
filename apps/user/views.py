@@ -143,3 +143,12 @@ def log_out(request: Request):
         request.auth.delete()
     
     return Response()
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def delete_user(request: Request):
+    params = request.data
+    mobile_phone = params.get('mobile_phone')
+    User.objects.get_by_natural_key(mobile_phone).delete()
+    return Response()
