@@ -143,3 +143,86 @@ class Words(models.Model):
     updated_datetime = models.DateTimeField(auto_now=True, editable=False)
 
 
+class Lens(models.Model):
+    NONE = 'NONE'
+    FACE = 'FACE'
+    FOOT = 'FOOT'
+    BODY = 'BODY'
+    FOCUS_OBJECT_CHOICES = [
+        (NONE, '无'),
+        (FACE, '面部'),
+        (FOOT, '脚部'),
+        (BODY, '全身'),
+    ]
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    lens_name = models.CharField(max_length=100)
+    focus_object = models.CharField(max_length=10, choices=FOCUS_OBJECT_CHOICES)
+    position_x = models.CharField(max_length=10)
+    position_y = models.CharField(max_length=10)
+    position_z = models.CharField(max_length=10)
+    focus = models.IntegerField()
+    aperture = models.IntegerField()
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+    
+    
+#形象
+class Image(models.Model):
+    image_name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    creator = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
+    icon_url = models.URLField(max_length=1000)
+    rel_url = models.URLField(max_length=1000)
+    is_customized = models.BooleanField(default=False)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+class Environment(models.Model):
+    env_name = models.CharField(max_length=100)
+    creator = models.CharField(max_length=100)
+    price = models.CharField(max_length=100)
+    icon_url = models.URLField(max_length=1000)
+    rel_url = models.URLField(max_length=1000)
+    is_customized = models.BooleanField(default=False)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+class UserImage(models.Model):
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+class UserEnvironment(models.Model):
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)
+
+class ImageOrder(models.Model):
+    ORDER_ID_PREFIX = 'IMG'
+    order_id = models.CharField(max_length=64, primary_key=True)
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    amount = models.CharField(max_length=15)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    paid_datetime = models.DateTimeField(null=True, blank=True)
+
+class EnvironmentOrder(models.Model):
+    ORDER_ID_PREFIX = 'ENV'
+    order_id = models.CharField(max_length=64, primary_key=True)
+    user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
+    amount = models.CharField(max_length=15)
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    paid_datetime = models.DateTimeField(null=True, blank=True)
+
+class LiveConfig(models.Model):
+    user = models.OneToOneField('user.User', on_delete=models.CASCADE)
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    speech_library = models.ForeignKey(SpeechLibrary, on_delete=models.CASCADE)
+    qa_library = models.ForeignKey(QuestionAnswerLibrary, on_delete=models.CASCADE)
+    interaction_types = models.CharField(max_length=50, default='GIFT')  # 存储多选的互动类型，每种类型之间用逗号分隔
+    created_datetime = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_datetime = models.DateTimeField(auto_now=True, editable=False)

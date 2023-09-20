@@ -32,7 +32,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', '1') == '1'
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ['.wusejietech.com']
+    ALLOWED_HOSTS = ['localhost','.wusejietech.com']
 
 
 # Application definition

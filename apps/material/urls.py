@@ -34,4 +34,29 @@ urlpatterns = [
     path('words/<int:id>/update', views.update_word, name='update_word'),
     path('library/words/<str:library_type>/all', views.get_all_words_libraries_by_type, name='get_all_words_libraries_by_type'),
     path('library/words/create', views.create_words_library, name='create_words_library'),
+    
+    path('lens/all', views.get_all_lenses, name='get_all_lenses'),
+    path('lens/<int:id>', views.get_lens, name='get_lens'),
+    path('lens/create', views.create_lens, name='create_lens'),
+    path('lens/<int:id>/update', views.update_lens, name='update_lens'),
+    path('lens/<int:id>/delete', views.delete_lens, name='delete_lens'),
+    
+    path('image/all', views.get_all_images, name='get_all_images'),
+    path('image/create', views.create_image, name='create_image'),
+    path('image/<int:image_id>/bind', views.bind_user_image, name='bind_user_image'),
+    path('image/<int:image_id>/update', views.update_image, name='update_image'),
+    path('image/<int:image_id>/delete', views.delete_image, name='delete_image'),
+    
+    path('environment/all', views.get_all_environments, name='get_all_environments'),
+    path('environment/create', views.create_environment, name='create_environment'),
+    path('environment/<int:environment_id>/bind', views.bind_user_environment, name='bind_user_environment'),
+    path('environment/<int:environment_id>/update', views.update_environment, name='update_environment'),
+    path('environment/<int:environment_id>/delete', views.delete_environment, name='delete_environment'),
+    
+    path('get_alipay_url_image/<int:image_id>', views.get_alipay_payment_url_image),
+    path('get_alipay_url_environment/<int:environment_id>', views.get_alipay_payment_url_environment),
+    
+    path('live_config', views.get_live_config, name='get_live_config'),
+    path('live_config/update', views.update_live_config, name='update_live_config'),
+    
 ]

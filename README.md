@@ -64,7 +64,7 @@ ApiKey = xxx
 ```python
 TypeError: Object type <class 'str'> cannot be passed to C code
 ```
-
+ 
 需要修改SDK内的下列文件：
 - `alipay/aop/api/util/EncryptUtils.py`
     ```python
