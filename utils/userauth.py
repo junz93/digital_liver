@@ -20,15 +20,15 @@ def check_usage_limit(view_func):
 
     return wrapper
 
-def require_login(view_func):
-    "Decorator for view functions that require user login"
-    @wraps(view_func)
-    def wrapper(request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return HttpResponseForbidden('Not logged in')
-        return view_func(request, *args, **kwargs)
+# def require_login(view_func):
+#     "Decorator for view functions that require user login"
+#     @wraps(view_func)
+#     def wrapper(request, *args, **kwargs):
+#         if not request.user.is_authenticated:
+#             return HttpResponseForbidden('Not logged in')
+#         return view_func(request, *args, **kwargs)
 
-    return wrapper
+#     return wrapper
 
 def is_usage_limit_reached(user: User):
     subscription = Subscription.get_unique(user)

@@ -1,6 +1,6 @@
-from django.urls import path
-from rest_framework.authtoken import views as auth_views
+from django.urls import path, re_path
 
+from . import consumers
 from . import views
 
 
@@ -59,4 +59,8 @@ urlpatterns = [
     path('live_config', views.get_live_config, name='get_live_config'),
     path('live_config/update', views.update_live_config, name='update_live_config'),
     
+]
+
+websocket_urlpatterns = [
+    re_path(r'(?P<mode>chat|speech)/generate$', consumers.AiGeneratorWsConsumer.as_asgi()),
 ]

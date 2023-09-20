@@ -38,6 +38,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'apps.livestream.apps.LivestreamConfig',
     'apps.material.apps.MaterialConfig',
     'apps.subscription.apps.SubscriptionConfig',
@@ -134,6 +135,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'digital_liver.wsgi.application'
+ASGI_APPLICATION = "digital_liver.asgi.application"
 
 
 # Database
